@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Horoscopes</string>
+    <string name="title_activity_horoscope_detail">HoroscopeDetailActivity</string>
+</resources>

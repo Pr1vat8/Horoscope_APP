@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HoroscopeDetailActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/galaxy"
+        android:scaleType="centerCrop"  android:contentDescription="Galaxy background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:fitsSystemWindows="true">  <TextView
+        android:id="@+id/zodiacSignNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:text="Zodiac Sign Name"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white" /> <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/horoscopeTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Loading horoscope..."
+            android:textSize="18sp"
+            android:textColor="@android:color/white" /> </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:indeterminateTint="@android:color/white" /> </LinearLayout>
+
+</FrameLayout>
