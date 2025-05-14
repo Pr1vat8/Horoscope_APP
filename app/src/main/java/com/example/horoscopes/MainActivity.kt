@@ -78,8 +78,7 @@ class MainActivity : ComponentActivity() {
                 val context = LocalContext.current
                 var showDialog by remember { mutableStateOf(false) }
                 var apiKeyInput by remember { mutableStateOf(TextFieldValue(getApiKey(context))) }
-                // Recompose when API key changes in SharedPreferences (e.g. after dialog save)
-                var currentApiKeyDisplay by remember { mutableStateOf(getApiKeyForDisplay(context)) }
+                // REMOVED: var currentApiKeyDisplay by remember { mutableStateOf(getApiKeyForDisplay(context)) }
 
 
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -99,20 +98,43 @@ class MainActivity : ComponentActivity() {
                                 .padding(innerPadding)
                                 .fillMaxSize()
                         ) {
-                            ApiKeySection(
-                                currentApiKeyDisplay = currentApiKeyDisplay,
-                                onSetApiKeyClick = {
-                                    // Update text field with current saved key when dialog opens
-                                    apiKeyInput = TextFieldValue(getApiKey(context))
-                                    showDialog = true
-                                }
+                            // REMOVED: Text composable that displayed API key status
+                            /*
+                            Text(
+                                text = currentApiKeyDisplay, // This variable is now removed
+                                color = Color.White,
+                                fontSize = 14.sp,
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally)
+                                    .padding(top = 16.dp, bottom = 8.dp)
                             )
+                            */
                             HoroscopeListScreen(
-                                modifier = Modifier.weight(1f), // Ensure list takes remaining space
+                                // Add some top padding to HoroscopeListScreen if the removed text provided visual spacing
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .padding(top = 16.dp), // Optional: adjust as needed
                                 zodiacSignList = zodiacs,
-                                currentApiKey = getApiKey(context) // Pass current API key
+                                currentApiKey = getApiKey(context)
                             )
+                            Spacer(modifier = Modifier.height(60.dp))
                         }
+                    }
+
+                    Button(
+                        onClick = {
+                            apiKeyInput = TextFieldValue(getApiKey(context))
+                            showDialog = true
+                        },
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .navigationBarsPadding()
+                            .padding(bottom = 16.dp)
+                            .height(40.dp)
+                            .wrapContentWidth(),
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 8.dp)
+                    ) {
+                        Text("Set API Key")
                     }
                 }
 
@@ -123,13 +145,13 @@ class MainActivity : ComponentActivity() {
                         onDismiss = { showDialog = false },
                         onSave = {
                             saveApiKey(context, apiKeyInput.text)
-                            currentApiKeyDisplay = getApiKeyForDisplay(context) // Update display
+                            // REMOVED: currentApiKeyDisplay = getApiKeyForDisplay(context)
                             showDialog = false
                         },
                         onUseDefault = {
                             clearApiKey(context)
-                            apiKeyInput = TextFieldValue("") // Clear input field
-                            currentApiKeyDisplay = getApiKeyForDisplay(context) // Update display
+                            apiKeyInput = TextFieldValue("")
+                            // REMOVED: currentApiKeyDisplay = getApiKeyForDisplay(context)
                             showDialog = false
                         }
                     )
@@ -137,36 +159,16 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+    // REMOVED: getApiKeyForDisplay function
+    /*
     private fun getApiKeyForDisplay(context: Context): String {
         val savedKey = getApiKey(context)
         return if (savedKey.isNotBlank()) "Using Custom API Key" else "Using Default API Key"
     }
+    */
 }
 
-@Composable
-fun ApiKeySection(
-    currentApiKeyDisplay: String,
-    onSetApiKeyClick: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = currentApiKeyDisplay,
-            color = Color.White,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Button(onClick = onSetApiKeyClick) {
-            Text("Set API Key")
-        }
-    }
-}
-
-
+// ApiKeyInputDialog remains the same internally, just the onSave/onUseDefault lambdas were changed in MainActivity
 @Composable
 fun ApiKeyInputDialog(
     apiKeyInputValue: TextFieldValue,
@@ -225,12 +227,12 @@ fun ApiKeyInputDialog(
 fun HoroscopeListScreen(
     modifier: Modifier = Modifier,
     zodiacSignList: List<ZodiacSign>,
-    currentApiKey: String // Receive current API key
+    currentApiKey: String
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier // Modifier is passed, including any padding from the call site
             .fillMaxSize()
-            .padding(horizontal = 16.dp) // Padding for the content within the list screen
+            .padding(horizontal = 16.dp) // Keep horizontal padding for the list content
     ) {
         Text(
             text = "Daily Horoscopes",
@@ -239,9 +241,11 @@ fun HoroscopeListScreen(
             color = Color.White,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(vertical = 16.dp) // Adjusted padding
+                .padding(vertical = 16.dp) // This padding provides spacing for the title
         )
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             items(zodiacSignList) { zodiacSign ->
                 ZodiacSignRow(zodiacSign = zodiacSign, apiKey = currentApiKey)
             }
@@ -259,7 +263,7 @@ fun ZodiacSignRow(zodiacSign: ZodiacSign, apiKey: String) {
             .clickable {
                 val intent = Intent(context, HoroscopeDetailActivity::class.java).apply {
                     putExtra("ZODIAC_SIGN_NAME", zodiacSign.name)
-                    putExtra("API_KEY", apiKey) // Pass the current API key
+                    putExtra("API_KEY", apiKey)
                 }
                 context.startActivity(intent)
             }
