@@ -10,34 +10,143 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/galaxy"
-        android:scaleType="centerCrop"  android:contentDescription="Galaxy background" />
+        android:scaleType="centerCrop"
+        android:contentDescription="Galaxy background" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp"
-        android:fitsSystemWindows="true">  <TextView
-        android:id="@+id/zodiacSignNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:text="Zodiac Sign Name"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white" /> <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:fitsSystemWindows="true">
 
         <TextView
-            android:id="@+id/horoscopeTextView"
+            android:id="@+id/zodiacSignNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="Zodiac Sign Name"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            tools:text="Aries" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:id="@+id/horoscopeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Loading horoscope..."
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                tools:text="Horoscope details will appear here..." />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/luckyNumberSectionLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/luckyNumberLabelTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lucky Numbers: "
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/luckyNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="7, 11, 23"
+                android:textSize="18sp"
+                android:textColor="@android:color/white"
+                android:text="Fetching..." />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/luckyColorSectionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Loading horoscope..."
-            android:textSize="18sp"
-            android:textColor="@android:color/white" /> </ScrollView>
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+                <TextView
+                    android:id="@+id/luckyColorLabelTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lucky Colors: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"/>
+
+                <TextView
+                    android:id="@+id/luckyColorTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Blue, Green"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/white"
+                    android:text="Fetching..."/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/colorSwatchesLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_gravity="center_horizontal"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <View
+                    android:id="@+id/colorSwatch1"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:background="#FF0000"/>
+                <View
+                    android:id="@+id/colorSwatch2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:background="#00FF00"/>
+                <View
+                    android:id="@+id/colorSwatch3"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    tools:background="#0000FF"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -45,8 +154,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
-            android:indeterminateTint="@android:color/white" /> </LinearLayout>
-
+            tools:visibility="visible"
+            android:indeterminateTint="@android:color/white" />
+    </LinearLayout>
 </FrameLayout>

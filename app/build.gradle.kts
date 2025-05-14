@@ -1,10 +1,9 @@
 import java.util.Properties
 
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.compose) // Assuming you have this if you use Compose extensively
 }
 
 val localProperties = Properties()
@@ -32,13 +31,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "GEMINI_API_KEY", "\"${localProperties.getProperty("GEMINI_API_KEY") ?: "YOUR_DEFAULT_API_KEY_IF_NOT_FOUND"}\"")
+        // Updated to use RAPIDAPI_KEY
+        buildConfigField("String", "RAPIDAPI_KEY", "\"${localProperties.getProperty("RAPIDAPI_KEY") ?: "YOUR_DEFAULT_RAPIDAPI_KEY"}\"")
     }
 
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = false // Consider enabling this for production releases
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -53,31 +53,36 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
-        compose = true
-        buildConfig = true
+        compose = true // Keep if you are using Jetpack Compose
+        buildConfig = true // Necessary for buildConfigField
     }
 }
 
 dependencies {
 
-    // Gemini API / Google AI
-    implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
+    // Removed Gemini API dependency:
+    // implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
+
     implementation("com.google.android.material:material:1.12.0")
+
+    // OkHttp for network requests (already present, which is good)
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.compose) // If using Jetpack Compose
+    implementation(platform(libs.androidx.compose.bom)) // If using Jetpack Compose
+    implementation(libs.androidx.ui) // If using Jetpack Compose
+    implementation(libs.androidx.ui.graphics) // If using Jetpack Compose
+    implementation(libs.androidx.ui.tooling.preview) // If using Jetpack Compose
+    implementation(libs.androidx.material3) // If using Jetpack Compose with Material 3
+    implementation(libs.androidx.appcompat) // For AppCompatActivity
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(platform(libs.androidx.compose.bom)) // If using Jetpack Compose
+    androidTestImplementation(libs.androidx.ui.test.junit4) // If using Jetpack Compose
+    debugImplementation(libs.androidx.ui.tooling) // If using Jetpack Compose
+    debugImplementation(libs.androidx.ui.test.manifest) // If using Jetpack Compose
 }
