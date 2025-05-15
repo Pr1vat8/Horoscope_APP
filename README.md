@@ -1,0 +1,1 @@
+A Simple Daily horoscope Android application that helps users know its daily horoscope reading and advice. Built with Android Studio as it's IDE, Kotlin/Java as its primary language and AstroPredict as it's Api
